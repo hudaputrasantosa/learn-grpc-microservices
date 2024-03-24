@@ -4,16 +4,22 @@ import (
 	"context"
 	"log"
 	"net"
+	
 
 	"learn-grpc/common/config"
 	"learn-grpc/common/pb"
-	"learn-grpc/common/proto"
 
 	"google.golang.org/protobuf/types/known/emptypb"
     "google.golang.org/grpc"
 )
 
 var localStorage *pb.UserList
+
+
+func init(){
+	localStorage = new(pb.UserList)
+	localStorage.List = make([]*pb.User, 0)
+}
 
 type UsersServer struct{
 	pb.UnimplementedUsersServer
@@ -32,10 +38,6 @@ func (UsersServer) List(context.Context, *emptypb.Empty) (*pb.UserList, error){
 	return localStorage, nil
 }
 
-func init(){
-	localStorage = new(pb.UserList)
-	localStorage.List = make([]*pb.UserList, 0)
-}
 
 func main(){
 	srv := grpc.NewServer()

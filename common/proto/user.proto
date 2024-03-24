@@ -5,6 +5,7 @@ import "google/protobuf/empty.proto";
 
 option go_package  = "./common/pb";
 
+// tipe enum UserGender
 enum UserGender {
      UNDEFINED = 0;
      MALE = 1;

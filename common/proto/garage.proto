@@ -1,25 +1,35 @@
+// versi proto yang akan digunakan 
 syntax = "proto3";
 package proto;
+
+// package default porotbuf empty
 import "google/protobuf/empty.proto";
 
+// lokasi path hasil generate dari proto ke file golang
 option go_package  = "./common/pb";
 
+// Inisiasi model GarageCoordinate dengan keyword message
+// format <tipe_data> <nama_properti> = <number_field/ unique_number/ like indexing>
 message GarageCoordinate {
      float latitude = 1;
      float longitude = 2;
 }
 
+// Inisiasi model Garage
 message Garage {
      string id = 1;
      string name = 2;
+// tipe data GarageCoordinate
      GarageCoordinate coordinate = 3;   
 }
 
 message GarageList {
+// inisiasi array/slice pada tipe_data Garage dengan nama properti List
      repeated Garage list = 1;
 }
 
 message GarageListByUser {
+// inisiasi tipe map
      map<string, GarageList> list = 1;
 }
 
@@ -32,7 +42,10 @@ message GarageAndUserId {
      Garage garage = 2;
 }
 
+// services/handler yang tersedia pada model Garage Proto & akan di konversi ke gprc protobuf
 service Garages {
+// <tipe rpc> nama fungsi (model params yang diterima) returns (format model yang dihasilkan/return/output)
      rpc List(GarageUserId) returns (GarageList) {}
-    rpc Add(GarageAndUserId) returns (google.protobuf.Empty) {}
+// rpc method mewajibkan memiliki params payload/request dan response, jika memang method tidak punya value payload/request atau response maka beri default protobuf empty
+     rpc Add(GarageAndUserId) returns (google.protobuf.Empty) {}
 }
